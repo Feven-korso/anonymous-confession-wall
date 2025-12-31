@@ -4,49 +4,62 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdviceDAO {
+public class AdviceDao {
 
-    public void insert(String content) throws Exception {
-        String sql = "INSERT INTO advice(content, likes, created_at) VALUES (?, 0, NOW())";
+    public boolean createAdvice(String content, int userId) {
+        String sql = "INSERT INTO advice(content, likes, user_id, created_at) VALUES (?, 0, ?, NOW())";
 
         try (Connection conn = DB.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, content);
-            stmt.executeUpdate();
+            ps.setString(1, content);
+            ps.setInt(2, userId);
+
+            return ps.executeUpdate() == 1;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
     }
 
-    public List<Advice> findAll() throws Exception {
-        String sql = "SELECT id, content, likes, created_at FROM advice ORDER BY created_at DESC";
+    public List<Advice> getAllAdvice() {
         List<Advice> list = new ArrayList<>();
 
+        String sql = "SELECT id, content, likes, created_at FROM advice ORDER BY created_at DESC";
+
         try (Connection conn = DB.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                Advice a = new Advice(
+                list.add(new Advice(
                         rs.getInt("id"),
                         rs.getString("content"),
                         rs.getInt("likes"),
-                        rs.getTimestamp("created_at").toLocalDateTime()
-                );
-                list.add(a);
+                        rs.getString("created_at")
+                ));
             }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return list;
     }
 
-    public boolean like(int id) throws Exception {
+    public boolean likeAdvice(int id) {
         String sql = "UPDATE advice SET likes = likes + 1 WHERE id = ?";
-        try (Connection conn = DB.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, id);
-            int changed = stmt.executeUpdate();
-            return changed == 1;
+        try (Connection conn = DB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+            return ps.executeUpdate() == 1;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
     }
 }
