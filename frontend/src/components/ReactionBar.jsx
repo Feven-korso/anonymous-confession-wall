@@ -57,7 +57,7 @@ const ReactionBar = ({ reactions = {}, onReact }) => {
                             fontWeight: isSelected ? 'bold' : 'normal',
                             color: isSelected ? type.color : 'inherit'
                         }}>
-                            {count + (isSelected ? 1 : 0)}
+                            {count}
                         </span>
                     </button>
                 );
