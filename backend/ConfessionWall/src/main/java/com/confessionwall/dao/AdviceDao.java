@@ -12,14 +12,13 @@ public class AdviceDAO {
 
    
 	public void addAdvice(AdviceModel advice) {
-	    // Now includes confession_id
 	    String sql = "INSERT INTO advice (content, likes, user_id, confession_id) VALUES (?, 0, ?, ?)";
 	    try (Connection conn = DBConnectionUtil.getConnection();
 	         PreparedStatement ps = conn.prepareStatement(sql)) {
 	        
 	        ps.setString(1, advice.getContent());
 	        ps.setInt(2, advice.getUserId());
-	        ps.setInt(3, advice.getConfessionId()); // Set the ID
+	        ps.setInt(3, advice.getConfessionId()); 
 	        ps.executeUpdate();
 	    } catch (SQLException e) {
 	        e.printStackTrace();
@@ -85,15 +84,13 @@ public class AdviceDAO {
                 while (rs.next()) {
                     AdviceModel advice = new AdviceModel();
 
-                    // --- ADD THESE MISSING LINES ---
                     advice.setId(rs.getInt("id"));
                     advice.setContent(rs.getString("content"));
                     advice.setLikes(rs.getInt("likes"));
                     advice.setUserId(rs.getInt("user_id"));
                     advice.setCreatedAt(rs.getTimestamp("created_at"));
-                    // --- END OF MISSING LINES ---
 
-                    advice.setConfessionId(rs.getInt("confession_id")); // This line was already correct
+                    advice.setConfessionId(rs.getInt("confession_id"));
                     
                     list.add(advice);
                 }
