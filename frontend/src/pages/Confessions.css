@@ -1,10 +1,9 @@
-/* src/Confessions.css - Light Mode Version */
 
 .confessions-page {
   min-height: calc(100vh - 70px);
-  /* Changed from dark gradient to light gray */
-  background: #f0f2f5; 
-  color: #1c1e21;
+  background: var(--bg-color);
+  color: var(--text-color);
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 .confessions-container {
@@ -21,16 +20,14 @@
 .confessions-header h1 {
   font-size: 3rem;
   margin-bottom: 12px;
-  /* Changed to a dark color for readability */
-  color: #1a1a1a;
+  color: var(--text-color); 
   text-shadow: none;
 }
 
 .page-subtitle {
-  color: #65676b;
+  color: var(--text-secondary); 
 }
 
-/* Alerts */
 .alert {
   display: flex;
   align-items: center;
@@ -68,10 +65,8 @@
   color: inherit;
 }
 
-/* Confession Form */
 .confession-form-container {
   margin-bottom: 40px;
-  /* Changed from dark glass to white card */
   background: #ffffff;
   border-radius: 12px;
   border: 1px solid #ddd;
@@ -113,7 +108,6 @@
   width: 100%;
   min-height: 150px;
   padding: 20px;
-  /* Changed input background to light */
   background: #f8f9fa;
   border: 1px solid #ccc;
   border-radius: 12px;
@@ -186,12 +180,12 @@
   align-items: center;
   margin-bottom: 24px;
   padding-bottom: 16px;
-  border-bottom: 2px solid #e9ecef;
+  border-bottom: 2px solid var(--border-color);
 }
 
 .list-header h2 {
   font-size: 2rem;
-  color: #1a1a1a;
+  color: var(--text-color);
 }
 
 .confessions-count {
